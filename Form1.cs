@@ -17,5 +17,9 @@ namespace HungryHorace
             InitializeComponent();
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            /// code ///
+        }
     }
 }

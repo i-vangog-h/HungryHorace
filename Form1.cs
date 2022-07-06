@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,9 +18,72 @@ namespace HungryHorace
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        Map map;
+        Graphics g;
+        private void buttonStart_Click(object sender, EventArgs e)
         {
-            /// code ///
+            g = CreateGraphics();
+            map = new Map("plan.txt", "ikonky.png");
+            this.Text = "Zbývá sebrat " + map.ZbyvaDiamantu + " diamantů";
+
+            timer1.Enabled = true;
+            buttonStart.Visible = false;
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+
+            switch (map.state)
+            {
+                case State.running:
+                    map.PohniVsemiPrvky(pressedkey);
+                    map.VykresliSe(g, ClientSize.Width, ClientSize.Height);
+                    this.Text = "Zbývá sebrat " + map.ZbyvaDiamantu + " diamantů";
+                    break;
+                case Stav.vyhra:
+                    timer1.Enabled = false;
+                    MessageBox.Show("Vyhra!");
+                    break;
+                case Stav.prohra:
+                    timer1.Enabled = false;
+                    MessageBox.Show("Prohra!");
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        PressedKey pressedkey = PressedKey.none;
+
+        // HACK na odchyceni stisku sipek
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Up)
+            {
+                pressedkey = PressedKey.up;
+                return true;
+            }
+            if (keyData == Keys.Down)
+            {
+                pressedkey = PressedKey.down;
+                return true;
+            }
+            if (keyData == Keys.Left)
+            {
+                pressedkey = PressedKey.left;
+                return true;
+            }
+            if (keyData == Keys.Right)
+            {
+                pressedkey = PressedKey.right; 
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+            pressedkey = PressedKey.none;
         }
     }
 }

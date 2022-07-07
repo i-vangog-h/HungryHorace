@@ -23,8 +23,8 @@ namespace HungryHorace
         private void buttonStart_Click(object sender, EventArgs e)
         {
             g = CreateGraphics();
-            map = new Map("plan.txt", "ikonky.png");
-            this.Text = "Zbývá sebrat " + map.ZbyvaDiamantu + " diamantů";
+            map = new Map("newplan.txt", "ikonky.png");
+            this.Text = "Zbývá sebrat " + map.coinsLeft + " minci";
 
             timer1.Enabled = true;
             buttonStart.Visible = false;
@@ -36,17 +36,13 @@ namespace HungryHorace
             switch (map.state)
             {
                 case State.running:
-                    map.PohniVsemiPrvky(pressedkey);
-                    map.VykresliSe(g, ClientSize.Width, ClientSize.Height);
-                    this.Text = "Zbývá sebrat " + map.ZbyvaDiamantu + " diamantů";
+                    map.MoveObjects(pressedkey);
+                    map.PrintOut(g, ClientSize.Width, ClientSize.Height);
+                    this.Text = "Zbývá sebrat " + map.coinsLeft + " minci";
                     break;
-                case Stav.vyhra:
+                case State.win:
                     timer1.Enabled = false;
-                    MessageBox.Show("Vyhra!");
-                    break;
-                case Stav.prohra:
-                    timer1.Enabled = false;
-                    MessageBox.Show("Prohra!");
+                    MessageBox.Show("You won mate!");
                     break;
                 default:
                     break;
@@ -83,7 +79,7 @@ namespace HungryHorace
 
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
-            pressedkey = PressedKey.none;
+            this.pressedkey = PressedKey.none;
         }
     }
 }

@@ -1,0 +1,72 @@
+29
+18
+                             
+                             
+  aXXXXXXXXXXXXXXXXXXXXXXXb  
+  X         X             Y  
+  XH-       X             Y  
+  X--X      X             Y  
+  X  XXXXX  XXXXXXXXX  XXXd  
+  X                       X  
+  X                       X  
+  X  XXXXXXXXXXXX      X  X  
+  X       XX    X      X  X  
+  X       XX    X      X  X  
+  X       XX    XXXXXXXX  X  
+  X                       X  
+  X                       X  
+  cXXXXXXXXXXXXXXXXXXXXXXXd  
+                             
+                             
+
+
+79
+24
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XhhhhhhhhhhhhhhhhhhhhhhhhhhhhhXhhhhhhhhhXhhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhhhhhhX
+XhhhhhhhhhhhhhhhhhhhhhhhhhhhhhXhhhhhhhhhXhhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhhhhhhX
+XhhhhhhhhhhhhhhhhhhhhhhhhhhhhhXhhhhhhhhhXhhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhhhhhhX
+XXXXXXXXXXXXXXhhhhhhhhhhhhhhhhXhhhhhhhhhXhhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhhhhhhX
+XhhhhhhhhhhhhhhhhhhhhhhhhhhhhhXhhhhhhhhhXhhhhhhhhhhhhhhXhhh^hhhhhhhhhhhhhhhhhhX
+XhhhhhhhhhhhhhXhhhhhhBhhhhhhhhXhhhhhhhhhhhhhhhhhXhhhhhhXhhhhhhhhhXhhhhhhhhhhhhX
+XhhhhhhhhhhhhhXhhhhhhhhhhhhhhhXhhhhhhhhhXhhhhhhhXhhhhhhXhhhhhhhhhXhhhhhhhhhhhhX
+XhhhhhhhhhhhhhXhhhhhhhhhhhhhhhXhhhhhhhhhXhhhhhhhXhhhhhhXhhhhhhhhhXhhhhhhhhhhhhX
+XhhhhhhhhhhhhhXhhhhhhhhhhBhhhhXhhhhhhhhhXhhhhhhhXhhhhhhXhhhhBBBhhXhhhhhhhhhhhhX
+Xhh<hhhhhhhhhhXhhhh>hhhhhhhhhhXhhhhhhhhhXhhhhhhhXhhhhhhXhhhhhhhhhXhhhh<hhhhhhhX
+XhhhhhhhhhhhhhXhhhhhhhhhhhhhhhXhhh B HhhXhhhhhhhXhhhhhhXhhhhhhhhhXhhh>hhhhhhhhX
+XhhhhhhhhhhhhhXhhhhhhhhhhhhhhhXhhhhhhhhhXhhhhhhhXhhhhhhXhhhhhhhhhXhhhh^hhvhhhhX
+XhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhhhhhhhhhXhhhhhhhXhhhhhhhhhhhhhhhhXhhhhhhhhhhhhX
+XhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhhhehEhhhXhhhhhhhXhhhhhhhhhhhhhhhhXhhhhhhhhhhhhX
+XhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhhhDDDhhhXhhhhhhhXhhhhBBBBBBBhhhhhXhhhhhhhhhhhhX
+XhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhhhhhhhhhXhhhhhhhXhhhhBBBBBBBhhhhhXhhhhhhhhhhhhX
+XhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhhhhhhhhhXhhhhhhhXhhhhhhhhhhhhhhhhXhhhhhhhhhhhhX
+XhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhhhhhhhhhXhhhhhhhXhhhhhhhhhhhhhhhhXhhhhhhhhhhhhX
+XhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhhhhhhhhhXhhhhhhhXhhhhhhhhhhhhhhhhXhhhhhhhhhhhhX
+XhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhhhhhhhhhXhhhhhhhXhhhhhhhhhhhhhhhhXhhhhhhhhhhhhX
+XhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhhhhhhhhhXhhhhhhhXhhhhhhhhhhhhhhhhXhhhhhhhhhhhhX
+XhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhhhhhhhhhXhhhhhhhXhhhhhhhhhhhhhhhhXhhhhhhhhhhhhX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+
+55
+10
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XHhhhhhhBhhhhhhhh  XhhhhhhhhhhhhhhhhhhDhhhhhBBBBBBhhhhX
+XhhhhhhhhhhhhhhXhhhhhhhhhhhBhBhBhhhhhhhhXhhhhhhhhhhhhhX
+XXXXXXXXXXXXXXXXXXXXXXXhhXXXXXXXXXhXXXXXXXXXXXXXXXXXXXX
+XhhhhhhhhhhhhhhhhXhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhDDDDDX
+XhXXXXXXXXXhhhhhhhhhhhhhhhhhhhhXhhhhhhhXXXXXXXXXXXXXXXX
+XhhhhhhhhhXXXXXXXXXXXXXXXXXXXXXXhhhhhhhhhhhhhhhhhhhhhhX
+XhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhBBBBBBBBhhhhhhhhhhhhhhX
+XhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhEX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+
+5
+3
+XXXXX
+XHDeX
+XXXXX
+
+
+

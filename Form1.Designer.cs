@@ -56,13 +56,15 @@ namespace HungryHorace
             // 
             // timer1
             // 
+            this.timer1.Interval = 25;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Form1
             // 
-            this.ClientSize = new System.Drawing.Size(811, 471);
+            this.ClientSize = new System.Drawing.Size(1182, 753);
             this.Controls.Add(this.buttonStart);
             this.Name = "Form1";
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
             this.ResumeLayout(false);
 
         }

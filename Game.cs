@@ -53,7 +53,7 @@ namespace HungryHorace
                     break;
             }
 
-            if (map.IsEmpty(newx, newy))
+            if (map.IsEmptyHorace(newx, newy))
             {
                 if (map.IsCoin(newx, newy))
                     map.EatCoin(newx, newy);
@@ -70,15 +70,28 @@ namespace HungryHorace
 
     class Ghost : MovingObject
     {
+        public int i;
         public Ghost(Map gmap, int gx, int gy)
         {
             this.map = gmap;
             this.x = gx;
             this.y = gy;
+            
             ///this.orientation 
         }
+
         public override void MakeMove()
         {
+            map.GhostAI(map.horace.x, map.horace.y, x, y);
+            if (map.IsHorace(map.nextx, map.nexty))
+            {
+                map.Move(x, y, map.nextx, map.nexty);
+                map.state = State.lost;
+            }
+            else if (map.IsEmptyGhost(map.nextx, map.nexty))
+            {
+                map.Move(x, y, map.nextx, map.nexty);
+            }
             
         }
     }
@@ -110,6 +123,66 @@ namespace HungryHorace
             ReadMap(pathMap);
             ReadIcons(pathIcons);
             state = State.running;
+        }
+
+        public (int, int)[] moves = { (1, 0), (0, 1), (-1, 0), (0, -1) }; //moves for BFS
+        public int nextx = 5;
+        public int nexty = 5;
+
+        public void GhostAI(int from_x, int from_y, int to_x, int to_y)
+        {
+            Queue<(int, int)> queue = new Queue<(int, int)>();
+            int[,] visited = new int[width, height];
+            bool reached = false;
+            int length = -1;
+
+            visited[from_x, from_y] = 1;
+            queue.Enqueue((from_x, from_y));
+
+            while (queue.Count!=0 && !reached)
+            {
+                (int, int) state = queue.Dequeue();
+                reached = CheckLayer(state, queue, visited, to_x, to_y);
+            }
+
+            
+        }
+
+        public bool CheckLayer ((int,int) state, Queue<(int,int)> queue, int[,] visited, int to_x, int to_y)
+        {
+            (int, int) new_state;
+
+            int i = state.Item1;
+            int j = state.Item2;
+            
+
+            for (int k = 0; k < moves.Length; k++)
+            {
+                int x = i + moves[k].Item1;
+                int y = j + moves[k].Item2;
+                new_state = (x, y);
+                if (visited[x,y] == 0)
+                {
+                    if (x == to_x && y == to_y)
+                    {
+                        visited[x, y] = visited[i, j] + 1;
+                        nextx = i;
+                        nexty = j;
+                        return true;
+                    }
+                    else if (IsEmptyGhost(x, y))
+                    {
+                        visited[x, y] = visited[i, j] + 1;
+                        queue.Enqueue(new_state);
+                    }
+                    else
+                    {
+                        visited[x, y] = -100;
+                    }
+
+                }
+            }
+                return false;
         }
 
         public void ReadMap(string path)
@@ -165,7 +238,7 @@ namespace HungryHorace
         {
             Bitmap bmp = new Bitmap(path);
             this.sx = bmp.Height;
-            icons = new Bitmap[11];
+            icons = new Bitmap[15];
             int indx = 0;
             for (int i = 0; i < 2; i++)
             {
@@ -176,13 +249,16 @@ namespace HungryHorace
                     indx += 1;
                 }
             }
-            Rectangle rect1 = new Rectangle(2 * sx, 0, sx, sx);
+            Rectangle rect1 = new Rectangle(2 * sx, 0, sx, sx); //horace
             icons[8] = bmp.Clone(rect1, System.Drawing.Imaging.PixelFormat.DontCare);
-            
-            rect1 = new Rectangle(22 * sx / 2, 0, sx / 2, sx / 2);
+
+            rect1 = new Rectangle(7 * sx, 0, sx, sx); //ghost
             icons[9] = bmp.Clone(rect1, System.Drawing.Imaging.PixelFormat.DontCare);
-            rect1 = new Rectangle(23 * sx / 2, 0, sx / 2, sx / 2);
+
+            rect1 = new Rectangle(22 * sx / 2, 0, sx / 2, sx / 2);
             icons[10] = bmp.Clone(rect1, System.Drawing.Imaging.PixelFormat.DontCare);
+            rect1 = new Rectangle(23 * sx / 2, 0, sx / 2, sx / 2);
+            icons[11] = bmp.Clone(rect1, System.Drawing.Imaging.PixelFormat.DontCare);
         }
 
         public void PrintOut(Graphics g, int sirkaVyrezuPixely, int vyskaVyrezuPixely)
@@ -219,7 +295,7 @@ namespace HungryHorace
                     char c = plan[mx, my];
                     if (c != '-')
                     {
-                        int indexObrazku = " abcdYXCH|>".IndexOf(c); // 0..
+                        int indexObrazku = " abcdYXCHG|>".IndexOf(c); // 0..
                         g.DrawImage(icons[indexObrazku], x * sx / 2, y * sx / 2);
                     }
                 }
@@ -235,15 +311,29 @@ namespace HungryHorace
             return false;
         }
 
-        public bool IsEmpty (int x, int y)
+        public bool IsEmptyHorace(int x, int y)
         {
             if (!" -HC".Contains(plan[x, y]))
                 return false;
-            if (!" -HC".Contains(plan[x+1, y]))
+            if (!" -HC".Contains(plan[x + 1, y]))
                 return false;
-            if (!" -HC".Contains(plan[x, y+1]))
+            if (!" -HC".Contains(plan[x, y + 1]))
                 return false;
-            if (!" -HC".Contains(plan[x+1, y+1]))
+            if (!" -HC".Contains(plan[x + 1, y + 1]))
+                return false;
+            return true;
+
+        }
+
+        public bool IsEmptyGhost (int x, int y)
+        {
+            if (!" -CG".Contains(plan[x, y]))
+                return false;
+            if (!" -CG".Contains(plan[x+1, y]))
+                return false;
+            if (!" -CG".Contains(plan[x, y+1]))
+                return false;
+            if (!" -CG".Contains(plan[x+1, y+1]))
                 return false;
             return true;
            
@@ -261,6 +351,21 @@ namespace HungryHorace
                 return true;
             return false;
         }
+
+        public bool IsHorace (int x, int y)
+        {
+            if (plan[x, y] == 'H')
+                return true;
+            if (plan[x + 1, y] == 'H')
+                return true;
+            if (plan[x + 1, y + 1] == 'H')
+                return true;
+            if (plan[x, y + 1] == 'H')
+                return true;
+            return false;
+        }
+
+
 
         public void EatCoin(int x, int y)
         {
@@ -328,6 +433,10 @@ namespace HungryHorace
         {
             this.pressedkey = pressedKey;
             horace.MakeMove();
+            foreach (Ghost ghost in Ghosts)
+            {
+                ghost.MakeMove();
+            }
         }
 
 

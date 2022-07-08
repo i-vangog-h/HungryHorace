@@ -7,9 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="newplan.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
+    <None Remove="icons.png" />
+    <None Remove="ikonky.png" />
+    <None Remove="newplan.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="icons.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="newplan.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

@@ -23,11 +23,12 @@ namespace HungryHorace
         private void buttonStart_Click(object sender, EventArgs e)
         {
             g = CreateGraphics();
-            map = new Map("newplan.txt", "ikonky.png");
+            map = new Map("newplan.txt", "icons.png");
             this.Text = "Zbývá sebrat " + map.coinsLeft + " minci";
 
             timer1.Enabled = true;
             buttonStart.Visible = false;
+            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -43,6 +44,10 @@ namespace HungryHorace
                 case State.win:
                     timer1.Enabled = false;
                     MessageBox.Show("You won mate!");
+                    break;
+                case State.lost:
+                    timer1.Enabled = false;
+                    MessageBox.Show("You lost!");
                     break;
                 default:
                     break;

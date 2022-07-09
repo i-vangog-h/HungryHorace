@@ -27,6 +27,7 @@ namespace HungryHorace
             this.Text = "Zbývá sebrat " + map.coinsLeft + " minci";
 
             timer1.Enabled = true;
+            timer2.Enabled = true;
             buttonStart.Visible = false;
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         }
@@ -43,10 +44,12 @@ namespace HungryHorace
                     break;
                 case State.win:
                     timer1.Enabled = false;
+                    timer2.Enabled = false;
                     MessageBox.Show("You won mate!");
                     break;
                 case State.lost:
                     timer1.Enabled = false;
+                    timer2.Enabled = false;
                     MessageBox.Show("You lost!");
                     break;
                 default:
@@ -82,9 +85,29 @@ namespace HungryHorace
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        private void Form1_KeyUp_1(object sender, KeyEventArgs e)
         {
-            this.pressedkey = PressedKey.none;
+            pressedkey = PressedKey.none;
         }
+
+        
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            
+            foreach(Ghost ghost in map.Ghosts)
+            {
+                if (ghost.state == Map.GhostState.chase)
+                {
+                    ghost.state = Map.GhostState.chill;
+                }
+                else
+                {
+                    ghost.state = Map.GhostState.chase;
+                }
+            }
+        }
+
+        
     }
 }

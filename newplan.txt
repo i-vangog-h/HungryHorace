@@ -4,69 +4,57 @@
                               
   aXXXXXXXXXXXXXXXXXXXXXXXb   
   X         X             Y   
-  XH-       X             Y   
+  XH-C  C   X  C C C C C  Y   
   X--X      X             Y   
-  X  XXXXX  XXXXXXXXX  XXXd   
-  X                       X   
-  X       C     C         X   
-  X  XXXXXXXXXXXX      X  X   
-  X       XX C  X      X  X   
-  X       XX    X      X  X   
-  X       XX    XXXXXXXX  X   
-  X                    G- |   
+  X  XXXXX  XXXXXXXXX CXXXd   
+  X C  C               C  X   
+  X       C     C       C X   
+  X CXXXXXXXXXXXXXXXXXXX  X   
+  X   G-  XX C  X      XC X   
+  X C --  XX    X      X  X   
+  X       XX    XXXXXXXXC X   
+  X C  C   C   C   C   G- |   
   X                    -- |   
   cXXXXXXXXXXXXXXXXXXXXXXXd   
                               
                               
-                               
-
-79
-24
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XhhhhhhhhhhhhhhhhhhhhhhhhhhhhhXhhhhhhhhhXhhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhhhhhhX
-XhhhhhhhhhhhhhhhhhhhhhhhhhhhhhXhhhhhhhhhXhhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhhhhhhX
-XhhhhhhhhhhhhhhhhhhhhhhhhhhhhhXhhhhhhhhhXhhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhhhhhhX
-XXXXXXXXXXXXXXhhhhhhhhhhhhhhhhXhhhhhhhhhXhhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhhhhhhX
-XhhhhhhhhhhhhhhhhhhhhhhhhhhhhhXhhhhhhhhhXhhhhhhhhhhhhhhXhhh^hhhhhhhhhhhhhhhhhhX
-XhhhhhhhhhhhhhXhhhhhhBhhhhhhhhXhhhhhhhhhhhhhhhhhXhhhhhhXhhhhhhhhhXhhhhhhhhhhhhX
-XhhhhhhhhhhhhhXhhhhhhhhhhhhhhhXhhhhhhhhhXhhhhhhhXhhhhhhXhhhhhhhhhXhhhhhhhhhhhhX
-XhhhhhhhhhhhhhXhhhhhhhhhhhhhhhXhhhhhhhhhXhhhhhhhXhhhhhhXhhhhhhhhhXhhhhhhhhhhhhX
-XhhhhhhhhhhhhhXhhhhhhhhhhBhhhhXhhhhhhhhhXhhhhhhhXhhhhhhXhhhhBBBhhXhhhhhhhhhhhhX
-Xhh<hhhhhhhhhhXhhhh>hhhhhhhhhhXhhhhhhhhhXhhhhhhhXhhhhhhXhhhhhhhhhXhhhh<hhhhhhhX
-XhhhhhhhhhhhhhXhhhhhhhhhhhhhhhXhhh B HhhXhhhhhhhXhhhhhhXhhhhhhhhhXhhh>hhhhhhhhX
-XhhhhhhhhhhhhhXhhhhhhhhhhhhhhhXhhhhhhhhhXhhhhhhhXhhhhhhXhhhhhhhhhXhhhh^hhvhhhhX
-XhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhhhhhhhhhXhhhhhhhXhhhhhhhhhhhhhhhhXhhhhhhhhhhhhX
-XhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhhhehEhhhXhhhhhhhXhhhhhhhhhhhhhhhhXhhhhhhhhhhhhX
-XhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhhhDDDhhhXhhhhhhhXhhhhBBBBBBBhhhhhXhhhhhhhhhhhhX
-XhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhhhhhhhhhXhhhhhhhXhhhhBBBBBBBhhhhhXhhhhhhhhhhhhX
-XhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhhhhhhhhhXhhhhhhhXhhhhhhhhhhhhhhhhXhhhhhhhhhhhhX
-XhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhhhhhhhhhXhhhhhhhXhhhhhhhhhhhhhhhhXhhhhhhhhhhhhX
-XhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhhhhhhhhhXhhhhhhhXhhhhhhhhhhhhhhhhXhhhhhhhhhhhhX
-XhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhhhhhhhhhXhhhhhhhXhhhhhhhhhhhhhhhhXhhhhhhhhhhhhX
-XhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhhhhhhhhhXhhhhhhhXhhhhhhhhhhhhhhhhXhhhhhhhhhhhhX
-XhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhhhhhhhhhXhhhhhhhXhhhhhhhhhhhhhhhhXhhhhhhhhhhhhX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
-55
-10
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XHhhhhhhBhhhhhhhh  XhhhhhhhhhhhhhhhhhhDhhhhhBBBBBBhhhhX
-XhhhhhhhhhhhhhhXhhhhhhhhhhhBhBhBhhhhhhhhXhhhhhhhhhhhhhX
-XXXXXXXXXXXXXXXXXXXXXXXhhXXXXXXXXXhXXXXXXXXXXXXXXXXXXXX
-XhhhhhhhhhhhhhhhhXhhhhhhhhhhhhhXhhhhhhhhhhhhhhhhhDDDDDX
-XhXXXXXXXXXhhhhhhhhhhhhhhhhhhhhXhhhhhhhXXXXXXXXXXXXXXXX
-XhhhhhhhhhXXXXXXXXXXXXXXXXXXXXXXhhhhhhhhhhhhhhhhhhhhhhX
-XhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhBBBBBBBBhhhhhhhhhhhhhhX
-XhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhEX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+36
+26
+                                    
+                                    
+                        aXXXXXXXXX  
+                 aXXXXXXd        |  
+          aXXXXXXd               |  
+  aXXXXXXXd                aXXXXXb  
+  Y                    aXXXd  Y  Y  
+  Y          aXXXXXXb  cXXXXXbY  Y  
+  Y  XXXXXXXXY      Y        cd  Y  
+  Y   C  C   cXXXXXXY            Y  
+  Y         C  C    cXXXXXb      Y  
+  cXXXXXXXb       C  C    cXXXXXXY  
+          cXXXXXXb       C  C  C Y  
+                 cXXXXXb         Y  
+                       YXXXXXXX  Y  
+                aXXXXXXd    C  C Y  
+         aXXXXXXd   G-  C        Y  
+  aXXXXXXd     C  C --    aXXXXXXY  
+  Y  C  C  C       aXXXXXXXXXXXXXY  
+  Y         aXXXXXXd             Y  
+  Y  aXXXXXXY                    Y  
+  Y  cXXXXXXd           XXXXXXX  Y  
+  >H-                            Y  
+  >--          aXXXXb            Y  
+  cXXXXXXXXXXXXd    cXXXXXXXXXXXXd  
+                                    
+                                    
 
 
-5
-3
-XXXXX
-XHDeX
-XXXXX
+
+
+
 
 
 

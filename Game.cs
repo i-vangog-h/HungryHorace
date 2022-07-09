@@ -19,6 +19,8 @@ namespace HungryHorace
 
     }
 
+    enum PressedKey { none, left, right, up, down }
+
     class Horace : MovingObject
     {
         public Horace(Map hmapa, int hx, int hy)
@@ -55,7 +57,7 @@ namespace HungryHorace
 
             if (map.IsEmptyHorace(newx, newy))
             {
-                if (map.IsCoin(newx, newy))
+                if (map.CheckCell(newx, newy, 'C'))
                     map.EatCoin(newx, newy);
                 map.Move(x, y, newx, newy);
             }
@@ -70,21 +72,28 @@ namespace HungryHorace
 
     class Ghost : MovingObject
     {
-        public int i;
+        public int prevx;
+        public int prevy;
+        public Map.GhostState state;
+
         public Ghost(Map gmap, int gx, int gy)
         {
             this.map = gmap;
             this.x = gx;
             this.y = gy;
-            
+            this.prevx = gx;
+            this.prevy = gy;
+            this.state = Map.GhostState.chill;
             ///this.orientation 
         }
 
         public override void MakeMove()
         {
-            map.GhostAI(map.horace.x, map.horace.y, x, y);
-            if (map.IsHorace(map.nextx, map.nexty))
+            //map.GhostAI(map.horace.x, map.horace.y, x, y);
+            map.ChoseNextCell(this,x, y, state);
+            if (map.CheckCell(map.nextx, map.nexty, 'H'))
             {
+                
                 map.Move(x, y, map.nextx, map.nexty);
                 map.state = State.lost;
             }
@@ -96,7 +105,6 @@ namespace HungryHorace
         }
     }
 
-    enum PressedKey { none, left, right, up, down }
     enum State { notstarted, running, lost, win}
 
     class Map
@@ -107,6 +115,7 @@ namespace HungryHorace
         public int coinsLeft;
         public bool pill;
         private int[] door = new int[4];
+        public bool[,] coinsplan;
 
         public State state = State.notstarted;
 
@@ -118,6 +127,9 @@ namespace HungryHorace
 
         public PressedKey pressedkey;
 
+        public enum GhostState {chase, chill}
+        
+
         public Map(string pathMap, string pathIcons)
         {
             ReadMap(pathMap);
@@ -125,7 +137,7 @@ namespace HungryHorace
             state = State.running;
         }
 
-        public (int, int)[] moves = { (1, 0), (0, 1), (-1, 0), (0, -1) }; //moves for BFS
+        public (int, int)[] moves = { (0, -1), (1, 0), (0, 1), (-1, 0) }; //moves for BFS, with prioritites ^>v<
         public int nextx = 5;
         public int nexty = 5;
 
@@ -185,6 +197,68 @@ namespace HungryHorace
                 return false;
         }
 
+        public void ChoseNextCell(Ghost ghost, int x, int y, GhostState state)
+        {
+            int newx;
+            int newy;
+
+            int targx = 0;
+            int targy = 0;
+
+            int bestx = x;
+            int besty = y;
+            int minlength = int.MaxValue;
+
+            switch (state)
+            {
+                case GhostState.chase:
+                    targx = horace.x;
+                    targy = horace.y;
+                    break;
+                case GhostState.chill:
+                    targx = door[0];
+                    targy = door[1];
+                    break;
+                default:
+                    break;
+            }
+
+            
+
+            foreach ((int,int) move in moves)
+            {
+                newx = x + move.Item1;
+                newy = y + move.Item2;
+
+                if(newx!= ghost.prevx || newy != ghost.prevy)
+                {
+                    if(IsEmptyGhost(newx, newy))
+                    {
+                        int len = ((newx - targx) * (newx - targx)) + ((newy - targy) * (newy - targy)); //choses the shortest linear distance to the target from the neighbouring cells with a particular prioritite
+                        if (minlength > len)
+                        {
+                            minlength = len;
+                            bestx = newx;
+                            besty = newy;
+                        }
+                    }
+                }
+            }
+            nextx = bestx;
+            nexty = besty;
+            ghost.prevx = x;
+            ghost.prevy = y;
+            
+        }
+
+        public void InserObject(int x, int y, char who)
+        {
+            plan[x, y] = who;
+            plan[x + 1, y] = '-';
+            plan[x, y + 1] = '-';
+            plan[x + 1, y + 1] = '-';
+        }
+
         public void ReadMap(string path)
         {
             Ghosts = new List<MovingObject>();
@@ -196,7 +270,7 @@ namespace HungryHorace
             coinsLeft = 0;
             pill = false;
             int doorind = 0;
-            
+            coinsplan = new bool[width, height];
 
             for (int y = 0; y < height; y++)
             {
@@ -218,6 +292,7 @@ namespace HungryHorace
                             break;
                         case 'C': //coin
                             coinsLeft += 1;
+                            coinsplan[x, y] = true;
                             break;
                         case 'p':
                             pill = true;
@@ -298,6 +373,19 @@ namespace HungryHorace
                         int indexObrazku = " abcdYXCHG|>".IndexOf(c); // 0..
                         g.DrawImage(icons[indexObrazku], x * sx / 2, y * sx / 2);
                     }
+                    if (coinsplan[mx, my] && plan[mx, my] != 'G' && plan[mx, my] != '-') //Saving the coins from ghosts
+                    {
+                        g.DrawImage(icons[" abcdYXCHG|>".IndexOf('C')], x * sx / 2, y * sx / 2);
+                        plan[mx, my] = 'C';
+                    }
+                    foreach (Ghost ghost in Ghosts)
+                    {
+                        if (mx == ghost.x && my == ghost.y && !CheckCell(mx, my, 'G'))
+                        {
+                            g.DrawImage(icons[" abcdYXCHG|>".IndexOf('G')], x * sx / 2, y * sx / 2);
+                            InserObject(mx, my, 'G');
+                        }
+                    }
                 }
             }
         }
@@ -327,13 +415,13 @@ namespace HungryHorace
 
         public bool IsEmptyGhost (int x, int y)
         {
-            if (!" -CG".Contains(plan[x, y]))
+            if (!" -CGH".Contains(plan[x, y]))
                 return false;
-            if (!" -CG".Contains(plan[x+1, y]))
+            if (!" -CGH".Contains(plan[x+1, y]))
                 return false;
-            if (!" -CG".Contains(plan[x, y+1]))
+            if (!" -CGH".Contains(plan[x, y+1]))
                 return false;
-            if (!" -CG".Contains(plan[x+1, y+1]))
+            if (!" -CGH".Contains(plan[x+1, y+1]))
                 return false;
             return true;
            
@@ -365,7 +453,18 @@ namespace HungryHorace
             return false;
         }
 
-
+        public bool CheckCell (int x, int y, char who)
+        {
+            if (plan[x, y] == who)
+                return true;
+            if (plan[x + 1, y] == who)
+                return true;
+            if (plan[x + 1, y + 1] == who)
+                return true;
+            if (plan[x, y + 1] == who)
+                return true;
+            return false;
+        }
 
         public void EatCoin(int x, int y)
         {
@@ -386,6 +485,7 @@ namespace HungryHorace
 
             coinsLeft -= 1;
             plan[cx, cy] = ' ';
+            coinsplan[cx, cy] = false;
             if (coinsLeft == 0)
                 OpenTheDoor();
         }
@@ -404,10 +504,7 @@ namespace HungryHorace
             plan[fromx, fromy + 1] = ' ';
             plan[fromx, fromy] = ' ';
 
-            plan[tox, toy] = c;
-            plan[tox + 1, toy] = '-';
-            plan[tox, toy + 1] = '-';
-            plan[tox + 1, toy + 1] = '-';
+            InserObject(tox, toy, c);
 
             // podivat se, jestli tam nestal hrdina:
             if (c == 'H')
@@ -432,11 +529,13 @@ namespace HungryHorace
         public void MoveObjects (PressedKey pressedKey)
         {
             this.pressedkey = pressedKey;
-            horace.MakeMove();
+            
             foreach (Ghost ghost in Ghosts)
             {
                 ghost.MakeMove();
             }
+
+            horace.MakeMove();
         }
 
 

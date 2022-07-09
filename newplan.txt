@@ -1,39 +1,43 @@
+2
+
+#1
 29
 18
                               
                               
   aXXXXXXXXXXXXXXXXXXXXXXXb   
-  X         X             Y   
-  XH-C  C   X  C C C C C  Y   
-  X--X      X             Y   
-  X  XXXXX  XXXXXXXXX CXXXd   
-  X C  C               C  X   
-  X       C     C       C X   
-  X CXXXXXXXXXXXXXXXXXXX  X   
-  X   G-  XX C  X      XC X   
-  X C --  XX    X      X  X   
-  X       XX    XXXXXXXXC X   
-  X C  C   C   C   C   G- |   
-  X                    -- |   
+  Y         X             Y   
+  >H-C      X  C  C  C  C Y   
+  >--X      X             Y   
+  Y  XXXXX  XXXXXXXXX CXXXd   
+  Y C  C                  Y   
+  Y        C C C C        Y   
+  Y CXXXXXXXXXXXXXXXXXXX  Y   
+  Y   G-  XX C  X   p  XC Y   
+  Y C --  XX    X      X  Y   
+  Y       XX    XXXX  XXC Y   
+  Y C  C   C   C   C      |   
+  Y                       |   
   cXXXXXXXXXXXXXXXXXXXXXXXd   
                               
                               
 
 
 
+#2
 36
 26
                                     
                                     
                         aXXXXXXXXX  
-                 aXXXXXXd        |  
-          aXXXXXXd               |  
-  aXXXXXXXd                aXXXXXb  
-  Y                    aXXXd  Y  Y  
+                 aXXXXXXd     C  |  
+          aXXXXXXd  G-     C     |  
+  aXXXXXXXd    C  C --     aXXXXXb  
+  Y   C  C  C          aXXXd  Y CY  
   Y          aXXXXXXb  cXXXXXbY  Y  
-  Y  XXXXXXXXY      Y        cd  Y  
-  Y   C  C   cXXXXXXY            Y  
-  Y         C  C    cXXXXXb      Y  
+  Y  XXXXXXXXY      Y C      cd CY  
+  Y   C  C   cXXXXXXY    C       Y  
+  Y         C  C    cXXXXXb  C   Y  
   cXXXXXXXb       C  C    cXXXXXXY  
           cXXXXXXb       C  C  C Y  
                  cXXXXXb         Y  
@@ -45,7 +49,7 @@
   Y         aXXXXXXd             Y  
   Y  aXXXXXXY                    Y  
   Y  cXXXXXXd           XXXXXXX  Y  
-  >H-                            Y  
+  >H-                        p   Y  
   >--          aXXXXb            Y  
   cXXXXXXXXXXXXd    cXXXXXXXXXXXXd  
                                     

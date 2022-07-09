@@ -13,22 +13,35 @@ namespace HungryHorace
 {
     public partial class Form1 : Form
     {
+        public int levelnumber;
+        private int numberoflevels;
         public Form1()
         {
             InitializeComponent();
+            this.levelnumber = 1;
+            System.IO.StreamReader sr = new System.IO.StreamReader("newplan.txt") ;
+            this.numberoflevels = int.Parse(sr.ReadLine());
+            sr.Close();
         }
 
         Map map;
         Graphics g;
         private void buttonStart_Click(object sender, EventArgs e)
         {
-            g = CreateGraphics();
-            map = new Map("newplan.txt", "icons.png");
-            this.Text = "Zbývá sebrat " + map.coinsLeft + " minci";
-
-            timer1.Enabled = true;
-            timer2.Enabled = true;
+            StartNewLevel();
             buttonStart.Visible = false;
+            
+        }
+
+        private void StartNewLevel()
+        {
+            g = CreateGraphics();
+            map = new Map("newplan.txt", "icons.png", levelnumber);
+            this.Text = map.coinsLeft + " COINS LEFT";
+
+            Runtime.Enabled = true;
+            ChaseChillStates.Enabled = true;
+
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         }
 
@@ -40,16 +53,24 @@ namespace HungryHorace
                 case State.running:
                     map.MoveObjects(pressedkey);
                     map.PrintOut(g, ClientSize.Width, ClientSize.Height);
-                    this.Text = "Zbývá sebrat " + map.coinsLeft + " minci";
+                    this.Text = map.coinsLeft + " COINS LEFT";
                     break;
                 case State.win:
-                    timer1.Enabled = false;
-                    timer2.Enabled = false;
-                    MessageBox.Show("You won mate!");
+                    Runtime.Enabled = false;
+                    ChaseChillStates.Enabled = false;
+                    if (levelnumber < numberoflevels)
+                    {
+                        levelnumber += 1;
+                        StartNewLevel();
+                    }
+                    else
+                    {
+                        MessageBox.Show("You won mate!");
+                    }
                     break;
                 case State.lost:
-                    timer1.Enabled = false;
-                    timer2.Enabled = false;
+                    Runtime.Enabled = false;
+                    ChaseChillStates.Enabled = false;
                     MessageBox.Show("You lost!");
                     break;
                 default:
@@ -90,24 +111,46 @@ namespace HungryHorace
             pressedkey = PressedKey.none;
         }
 
-        
 
+        private DateTime starttime;
         private void timer2_Tick(object sender, EventArgs e)
         {
             
             foreach(Ghost ghost in map.Ghosts)
             {
-                if (ghost.state == Map.GhostState.chase)
+                switch (ghost.state)
                 {
-                    ghost.state = Map.GhostState.chill;
-                }
-                else
-                {
-                    ghost.state = Map.GhostState.chase;
+                    case Map.GhostState.chase:
+                        ghost.state = Map.GhostState.chill;
+                        break;
+                    case Map.GhostState.chill:
+                        ghost.state = Map.GhostState.chase;
+                        break;
+                    case Map.GhostState.fear:
+                        starttime = DateTime.Now;
+                        FearState.Enabled = true;
+                        ChaseChillStates.Enabled = false;
+                        break;
+                    default:
+                        break;  
                 }
             }
         }
 
-        
+        private void FearState_Tick(object sender, EventArgs e)
+        {
+            TimeSpan interval = DateTime.Now - starttime;
+            if (interval.TotalMilliseconds > 10000)
+            {
+               map.RestoreGhosts();
+               foreach (Ghost ghost in map.Ghosts)
+                {
+                    ghost.state = Map.GhostState.chill;
+                }
+                ChaseChillStates.Enabled = true;
+                FearState.Enabled = false;
+            }
+
+        }
     }
 }

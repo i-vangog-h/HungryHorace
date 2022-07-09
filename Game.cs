@@ -14,7 +14,7 @@ namespace HungryHorace
         public Map map;
         public int x;
         public int y;
-        public int orientation;
+        
         public abstract void MakeMove();
 
     }
@@ -66,6 +66,31 @@ namespace HungryHorace
                 map.Move(x, y, newx, newy);
                 map.state = State.win;
             }
+            else if (map.CheckCell(newx, newy, 'G'))
+            {
+                bool ghostfear = false;
+                foreach (Ghost ghost in map.Ghosts)
+                {
+                    if (ghost.state == Map.GhostState.fear)
+                    {
+                        ghostfear = true;
+                        break;
+                    }
+                }
+                if (!ghostfear)
+                {
+                    map.state = State.lost;
+                }
+                else
+                {
+                    map.KillGhost(x, y);
+                }
+            }
+            else if (map.CheckCell(newx, newy, 'p'))
+            {
+                map.EatPill(newx, newy);
+                map.Move(x, y, newx, newy);
+            }
             
         }
     }
@@ -90,12 +115,20 @@ namespace HungryHorace
         public override void MakeMove()
         {
             //map.GhostAI(map.horace.x, map.horace.y, x, y);
-            map.ChoseNextCell(this,x, y, state);
+
+            map.ChoseNextCellGhost(this,x, y, state);
             if (map.CheckCell(map.nextx, map.nexty, 'H'))
             {
+                if (state != Map.GhostState.fear)
+                {
+                    map.Move(x, y, map.nextx, map.nexty);
+                    map.state = State.lost;
+                }
+                else
+                {
+                    map.KillGhost(x, y);
+                }
                 
-                map.Move(x, y, map.nextx, map.nexty);
-                map.state = State.lost;
             }
             else if (map.IsEmptyGhost(map.nextx, map.nexty))
             {
@@ -105,7 +138,7 @@ namespace HungryHorace
         }
     }
 
-    enum State { notstarted, running, lost, win}
+    enum State { notstarted, running, lost, win }
 
     class Map
     {
@@ -115,7 +148,7 @@ namespace HungryHorace
         public int coinsLeft;
         public bool pill;
         private int[] door = new int[4];
-        public bool[,] coinsplan;
+        public char[,] helpplan;
 
         public State state = State.notstarted;
 
@@ -124,15 +157,16 @@ namespace HungryHorace
 
         public Horace horace;
         public List<MovingObject> Ghosts;
+        public List<int> ghostsplan;
 
         public PressedKey pressedkey;
 
-        public enum GhostState {chase, chill}
+        public enum GhostState {chase, chill, fear}
         
 
-        public Map(string pathMap, string pathIcons)
+        public Map(string pathMap, string pathIcons, int level)
         {
-            ReadMap(pathMap);
+            ReadMap(pathMap, level);
             ReadIcons(pathIcons);
             state = State.running;
         }
@@ -141,7 +175,7 @@ namespace HungryHorace
         public int nextx = 5;
         public int nexty = 5;
 
-        public void GhostAI(int from_x, int from_y, int to_x, int to_y)
+        public void GhostAIBFS(int from_x, int from_y, int to_x, int to_y)
         {
             Queue<(int, int)> queue = new Queue<(int, int)>();
             int[,] visited = new int[width, height];
@@ -159,7 +193,6 @@ namespace HungryHorace
 
             
         }
-
         public bool CheckLayer ((int,int) state, Queue<(int,int)> queue, int[,] visited, int to_x, int to_y)
         {
             (int, int) new_state;
@@ -197,8 +230,11 @@ namespace HungryHorace
                 return false;
         }
 
-        public void ChoseNextCell(Ghost ghost, int x, int y, GhostState state)
+
+        public void ChoseNextCellGhost(Ghost ghost, int x, int y, GhostState state)
         {
+            Random rnd = new Random();
+
             int newx;
             int newy;
 
@@ -218,6 +254,10 @@ namespace HungryHorace
                 case GhostState.chill:
                     targx = door[0];
                     targy = door[1];
+                    break;
+                case GhostState.fear:
+                    targx = rnd.Next(0, width - 1);
+                    targy = rnd.Next(0, height - 1);
                     break;
                 default:
                     break;
@@ -250,7 +290,6 @@ namespace HungryHorace
             ghost.prevy = y;
             
         }
-
         public void InserObject(int x, int y, char who)
         {
             plan[x, y] = who;
@@ -258,19 +297,25 @@ namespace HungryHorace
             plan[x, y + 1] = '-';
             plan[x + 1, y + 1] = '-';
         }
-
-        public void ReadMap(string path)
+        public void ReadMap(string path, int level)
         {
             Ghosts = new List<MovingObject>();
-
+            ghostsplan = new List<int>();
             System.IO.StreamReader sr = new System.IO.StreamReader(path);
+            string row = sr.ReadLine();
+            while(row != $"#{level}")
+
+            {
+                row = sr.ReadLine();
+            }
             width = int.Parse(sr.ReadLine());
             height = int.Parse(sr.ReadLine());
             plan = new char[width, height];
             coinsLeft = 0;
             pill = false;
             int doorind = 0;
-            coinsplan = new bool[width, height];
+            helpplan = new char[width, height];
+            
 
             for (int y = 0; y < height; y++)
             {
@@ -289,13 +334,16 @@ namespace HungryHorace
                         case 'G':
                             Ghost ghost = new Ghost(this, x, y);
                             Ghosts.Add(ghost);
+                            ghostsplan.Add(x);
+                            ghostsplan.Add(y);
                             break;
                         case 'C': //coin
                             coinsLeft += 1;
-                            coinsplan[x, y] = true;
+                            helpplan[x, y] = 'C';
                             break;
                         case 'p':
                             pill = true;
+                            helpplan[x, y] = 'p';
                             break;
                         case '|':
                             door[doorind] = x;
@@ -330,10 +378,16 @@ namespace HungryHorace
             rect1 = new Rectangle(7 * sx, 0, sx, sx); //ghost
             icons[9] = bmp.Clone(rect1, System.Drawing.Imaging.PixelFormat.DontCare);
 
-            rect1 = new Rectangle(22 * sx / 2, 0, sx / 2, sx / 2);
+            rect1 = new Rectangle(22 * sx / 2, 0, sx / 2, sx / 2); //doors
             icons[10] = bmp.Clone(rect1, System.Drawing.Imaging.PixelFormat.DontCare);
             rect1 = new Rectangle(23 * sx / 2, 0, sx / 2, sx / 2);
             icons[11] = bmp.Clone(rect1, System.Drawing.Imaging.PixelFormat.DontCare);
+
+            rect1 = new Rectangle(3 * sx, 0, sx / 2, sx / 2); //red cherry (pill)
+            icons[12] = bmp.Clone(rect1, System.Drawing.Imaging.PixelFormat.DontCare);
+
+            rect1 = new Rectangle(6 * sx, 0, sx, sx); //frightened ghost
+            icons[13] = bmp.Clone(rect1, System.Drawing.Imaging.PixelFormat.DontCare);
         }
 
         public void PrintOut(Graphics g, int sirkaVyrezuPixely, int vyskaVyrezuPixely)
@@ -360,6 +414,18 @@ namespace HungryHorace
             if (dy + vyskaVyrezu - 1 >= this.height)
                 dy = this.height - vyskaVyrezu;
 
+            bool ghostfear = false;
+
+            foreach (Ghost ghost in Ghosts)
+            {
+                if (ghost.state == GhostState.fear)
+                {
+                    ghostfear = true;
+                    break;
+                }
+
+            }
+
             for (int x = 0; x < sirkaVyrezu; x++)
             {
                 for (int y = 0; y < vyskaVyrezu; y++)
@@ -367,25 +433,57 @@ namespace HungryHorace
                     int mx = dx + x; // index do mapy
                     int my = dy + y; // index do mapy
 
+
                     char c = plan[mx, my];
+
+                    
+
                     if (c != '-')
                     {
-                        int indexObrazku = " abcdYXCHG|>".IndexOf(c); // 0..
+                        int indexObrazku = " abcdYXCHG|>pF".IndexOf(c); // 0..
                         g.DrawImage(icons[indexObrazku], x * sx / 2, y * sx / 2);
                     }
-                    if (coinsplan[mx, my] && plan[mx, my] != 'G' && plan[mx, my] != '-') //Saving the coins from ghosts
+
+                    if (c == 'G' && ghostfear)
                     {
-                        g.DrawImage(icons[" abcdYXCHG|>".IndexOf('C')], x * sx / 2, y * sx / 2);
+                        int indexObrazku = " abcdYXCHG|>pF".IndexOf('F'); // 0..
+                        g.DrawImage(icons[indexObrazku], x * sx / 2, y * sx / 2);
+                    }
+
+                    if (helpplan[mx, my] == 'C' && plan[mx, my] != 'G' && plan[mx, my] != '-') //Saving the coins and the pill from ghosts
+                    {
+                        g.DrawImage(icons[" abcdYXCHG|>pF".IndexOf('C')], x * sx / 2, y * sx / 2);
                         plan[mx, my] = 'C';
                     }
-                    foreach (Ghost ghost in Ghosts)
+                    else if (helpplan[mx, my] == 'p' && plan[mx, my] != 'G' && plan[mx, my] != '-')
                     {
-                        if (mx == ghost.x && my == ghost.y && !CheckCell(mx, my, 'G'))
-                        {
-                            g.DrawImage(icons[" abcdYXCHG|>".IndexOf('G')], x * sx / 2, y * sx / 2);
-                            InserObject(mx, my, 'G');
-                        }
+                        g.DrawImage(icons[" abcdYXCHG|>pF".IndexOf('p')], x * sx / 2, y * sx / 2);
+                        plan[mx, my] = 'p';
                     }
+
+
+                    foreach (Ghost ghost in Ghosts)  //Ghosts intersection 
+                    {
+                        if (!ghostfear)
+                        {
+                            if (mx == ghost.x && my == ghost.y && !CheckCell(mx, my, 'G'))
+                            {
+                                g.DrawImage(icons[" abcdYXCHG|>pF".IndexOf('G')], x * sx / 2, y * sx / 2);
+                                InserObject(mx, my, 'G');
+                            }
+                        }
+                        else
+                        {
+                            if (mx == ghost.x && my == ghost.y && !CheckCell(mx, my, 'G'))
+                            {
+                                g.DrawImage(icons[" abcdYXCHG|>pF".IndexOf('F')], x * sx / 2, y * sx / 2);
+                                InserObject(mx, my, 'F');
+                            }
+                        }
+                        
+                    }
+                    
+
                 }
             }
         }
@@ -415,42 +513,16 @@ namespace HungryHorace
 
         public bool IsEmptyGhost (int x, int y)
         {
-            if (!" -CGH".Contains(plan[x, y]))
+            if (!" -CGHp".Contains(plan[x, y]))
                 return false;
-            if (!" -CGH".Contains(plan[x+1, y]))
+            if (!" -CGHp".Contains(plan[x+1, y]))
                 return false;
-            if (!" -CGH".Contains(plan[x, y+1]))
+            if (!" -CGHp".Contains(plan[x, y+1]))
                 return false;
-            if (!" -CGH".Contains(plan[x+1, y+1]))
+            if (!" -CGHp".Contains(plan[x+1, y+1]))
                 return false;
             return true;
            
-        }
-
-        public bool IsCoin (int x, int y)
-        {
-            if (plan[x, y] == 'C')
-                return true;
-            if (plan[x+1, y] == 'C')
-                return true;
-            if (plan[x+1, y+1] == 'C')
-                return true;
-            if (plan[x, y+1] == 'C')
-                return true;
-            return false;
-        }
-
-        public bool IsHorace (int x, int y)
-        {
-            if (plan[x, y] == 'H')
-                return true;
-            if (plan[x + 1, y] == 'H')
-                return true;
-            if (plan[x + 1, y + 1] == 'H')
-                return true;
-            if (plan[x, y + 1] == 'H')
-                return true;
-            return false;
         }
 
         public bool CheckCell (int x, int y, char who)
@@ -485,9 +557,34 @@ namespace HungryHorace
 
             coinsLeft -= 1;
             plan[cx, cy] = ' ';
-            coinsplan[cx, cy] = false;
+            helpplan[cx, cy] = ' ';
             if (coinsLeft == 0)
                 OpenTheDoor();
+        }
+
+        public void EatPill(int x, int y)
+        {
+            int px = x;
+            int py = y;
+            for (int i = 0; i < 2; i++)
+            {
+                for (int j = 0; j < 2; j++)
+                {
+                    if (plan[x + i, y + j] == 'p')
+                    {
+                        px = x + i;
+                        py = y + j;
+                        break;
+                    }
+                }
+            }
+
+            helpplan[px, py] = ' ';
+            plan[px, py] = ' ';
+            foreach(Ghost ghost in Ghosts)
+            {
+                ghost.state = GhostState.fear;
+            }
         }
 
         public void OpenTheDoor()
@@ -529,15 +626,53 @@ namespace HungryHorace
         public void MoveObjects (PressedKey pressedKey)
         {
             this.pressedkey = pressedKey;
-            
-            foreach (Ghost ghost in Ghosts)
-            {
-                ghost.MakeMove();
-            }
 
+            try
+            {
+                foreach (Ghost ghost in Ghosts)
+                {
+                    ghost.MakeMove();
+                }
+            }
+            catch
+            {
+
+            }
+             
             horace.MakeMove();
         }
 
+        public void KillGhost(int x, int y)
+        {
+            
+            for (int i = 0; i < Ghosts.Count; i++)
+            {
+                if ((Ghosts[i].x == x) && (Ghosts[i].y == y))
+                {
+                  
+                    Ghosts.RemoveAt(i); // 1. vyhodit ze seznamu pohyblivych prvku...
+
+                    plan[x + 1, y] = ' '; // 2. ...a z planu!
+                    plan[x + 1, y + 1] = ' ';
+                    plan[x, y + 1] = ' ';
+                    plan[x, y] = ' ';
+                    break;
+                }
+            }
+        }
+
+        public void RestoreGhosts()
+        {
+            int max = ghostsplan.Count - Ghosts.Count * 2;
+            for (int i = 0; i < max; i+=2)
+            {
+                int x = ghostsplan[i];
+                int y = ghostsplan[i+1];
+                InserObject(x, y, 'G');
+                Ghost ghost = new Ghost(this, x, y);
+                Ghosts.Add(ghost);
+            }
+        }
 
     }
 /*
@@ -580,19 +715,7 @@ namespace HungryHorace
 
     }
 
-    public void ZrusPohyblivyPrvek(int zX, int zY)
-    {
-        // najit pohyblivyPrvek a vyhodit ho ze seznamu :
-        for (int i = 0; i < PohyblivePrvkyKromeHrdiny.Count; i++)
-        {
-            if ((PohyblivePrvkyKromeHrdiny[i].x == zX) && (PohyblivePrvkyKromeHrdiny[i].y == zY))
-            {
-                PohyblivePrvkyKromeHrdiny.RemoveAt(i); // 1. vyhodit ze seznamu pohyblivych prvku...
-                plan[zX, zY] = ' ';                    // 2. ...a z planu!
-                break;
-            }
-        }
-    }
+    
 
     private (int, int) UrciPodleSmeru((int, int) pozice, string which)
     {

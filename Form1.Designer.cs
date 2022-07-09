@@ -32,8 +32,9 @@ namespace HungryHorace
             this.components = new System.ComponentModel.Container();
             this.button1 = new System.Windows.Forms.Button();
             this.buttonStart = new System.Windows.Forms.Button();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.Runtime = new System.Windows.Forms.Timer(this.components);
+            this.ChaseChillStates = new System.Windows.Forms.Timer(this.components);
+            this.FearState = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // button1
@@ -55,15 +56,20 @@ namespace HungryHorace
             this.buttonStart.UseVisualStyleBackColor = false;
             this.buttonStart.Click += new System.EventHandler(this.buttonStart_Click);
             // 
-            // timer1
+            // Runtime
             // 
-            this.timer1.Interval = 50;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.Runtime.Interval = 50;
+            this.Runtime.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // timer2
+            // ChaseChillStates
             // 
-            this.timer2.Interval = 10000;
-            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            this.ChaseChillStates.Interval = 5000;
+            this.ChaseChillStates.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
+            // FearState
+            // 
+            this.FearState.Interval = 10001;
+            this.FearState.Tick += new System.EventHandler(this.FearState_Tick);
             // 
             // Form1
             // 
@@ -79,8 +85,9 @@ namespace HungryHorace
 
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button buttonStart;
-        private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.Timer Runtime;
+        private System.Windows.Forms.Timer ChaseChillStates;
+        private System.Windows.Forms.Timer FearState;
     }
 }
 

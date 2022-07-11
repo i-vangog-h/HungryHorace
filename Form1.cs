@@ -36,6 +36,7 @@ namespace HungryHorace
             HardcoreLabel.Visible = false;
             GameOverLabel.Visible = false;
             MenuButton.Visible = false;
+            VictoryLabel.Visible = false;
         }
 
         Map map;
@@ -49,12 +50,14 @@ namespace HungryHorace
             Score.Visible = false;
             GameModeButton.Visible = false;
             TutorialButton.Visible = false;
+            Normal.Visible = false;
+            Hardcore.Visible = false;
             
         }
 
         private void StartNewLevel()
         {
-            livesleft = 3;
+            
             
             map = new Map("newplan.txt", "icons.png", levelnumber);
 
@@ -95,6 +98,10 @@ namespace HungryHorace
                     if (levelnumber < numberoflevels)
                     {
                         levelnumber += 1;
+                        if (levelnumber == 3)
+                        {
+                            FearState.Interval = 10000;
+                        }
                         score += map.score;
                         StartNewLevel();
                     }
@@ -104,8 +111,10 @@ namespace HungryHorace
                         g.Clear(BackColor);
                         score += map.score;
                         Score.Text = "SCORE: " + score;
+                        score = 0;
                         Score.Visible = true;
                         MenuButton.Visible = true;
+                        VictoryLabel.Visible = true;
                     }
                     break;
                 case State.eaten:
@@ -205,7 +214,7 @@ namespace HungryHorace
         private void FearState_Tick(object sender, EventArgs e)
         {
             TimeSpan interval = DateTime.Now - starttime;
-            if (interval.TotalMilliseconds > 10000)
+            if (interval.TotalMilliseconds > FearState.Interval - 1)
             {
                map.RestoreGhosts();
                foreach (Ghost ghost in map.Ghosts)
@@ -281,6 +290,7 @@ namespace HungryHorace
             MenuButton.Visible = false;
             GameOverLabel.Visible = false;
             Score.Visible = false;
+            VictoryLabel.Visible = false;
             ActivateMenu();
         }
     }

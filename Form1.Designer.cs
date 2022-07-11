@@ -35,8 +35,6 @@ namespace HungryHorace
             this.Runtime = new System.Windows.Forms.Timer(this.components);
             this.ChaseChillStates = new System.Windows.Forms.Timer(this.components);
             this.FearState = new System.Windows.Forms.Timer(this.components);
-            this.Title = new System.Windows.Forms.TextBox();
-            this.Score = new System.Windows.Forms.TextBox();
             this.GameModeButton = new System.Windows.Forms.Button();
             this.TutorialButton = new System.Windows.Forms.Button();
             this.Normal = new System.Windows.Forms.Button();
@@ -45,6 +43,9 @@ namespace HungryHorace
             this.HardcoreLabel = new System.Windows.Forms.Label();
             this.GameOverLabel = new System.Windows.Forms.Label();
             this.MenuButton = new System.Windows.Forms.Button();
+            this.Title = new System.Windows.Forms.Label();
+            this.Score = new System.Windows.Forms.Label();
+            this.VictoryLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
@@ -68,6 +69,7 @@ namespace HungryHorace
             // 
             // Runtime
             // 
+            this.Runtime.Interval = 150;
             this.Runtime.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // ChaseChillStates
@@ -77,30 +79,8 @@ namespace HungryHorace
             // 
             // FearState
             // 
-            this.FearState.Interval = 10001;
+            this.FearState.Interval = 5001;
             this.FearState.Tick += new System.EventHandler(this.FearState_Tick);
-            // 
-            // Title
-            // 
-            this.Title.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.Title.Font = new System.Drawing.Font("Showcard Gothic", 25.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.Title.ForeColor = System.Drawing.Color.Blue;
-            this.Title.Location = new System.Drawing.Point(238, 59);
-            this.Title.Name = "Title";
-            this.Title.Size = new System.Drawing.Size(400, 61);
-            this.Title.TabIndex = 1;
-            this.Title.Text = "Hungry Horace";
-            this.Title.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // Score
-            // 
-            this.Score.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.Score.Font = new System.Drawing.Font("SimSun", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.Score.Location = new System.Drawing.Point(219, 212);
-            this.Score.Name = "Score";
-            this.Score.Size = new System.Drawing.Size(429, 99);
-            this.Score.TabIndex = 2;
-            this.Score.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // GameModeButton
             // 
@@ -169,11 +149,11 @@ namespace HungryHorace
             this.HardcoreLabel.AutoSize = true;
             this.HardcoreLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.HardcoreLabel.Font = new System.Drawing.Font("Book Antiqua", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.HardcoreLabel.Location = new System.Drawing.Point(34, 493);
+            this.HardcoreLabel.Location = new System.Drawing.Point(147, 495);
             this.HardcoreLabel.Name = "HardcoreLabel";
-            this.HardcoreLabel.Size = new System.Drawing.Size(350, 22);
+            this.HardcoreLabel.Size = new System.Drawing.Size(237, 22);
             this.HardcoreLabel.TabIndex = 8;
-            this.HardcoreLabel.Text = "Limited number of lives (3) on each level";
+            this.HardcoreLabel.Text = "Limited number of lives (3)";
             // 
             // GameOverLabel
             // 
@@ -191,7 +171,7 @@ namespace HungryHorace
             this.MenuButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this.MenuButton.Font = new System.Drawing.Font("Verdana", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.MenuButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.MenuButton.Location = new System.Drawing.Point(268, 440);
+            this.MenuButton.Location = new System.Drawing.Point(270, 466);
             this.MenuButton.Name = "MenuButton";
             this.MenuButton.Size = new System.Drawing.Size(370, 86);
             this.MenuButton.TabIndex = 10;
@@ -199,21 +179,56 @@ namespace HungryHorace
             this.MenuButton.UseVisualStyleBackColor = false;
             this.MenuButton.Click += new System.EventHandler(this.MenuButton_Click);
             // 
+            // Title
+            // 
+            this.Title.AutoSize = true;
+            this.Title.Font = new System.Drawing.Font("Showcard Gothic", 28.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.Title.ForeColor = System.Drawing.Color.Blue;
+            this.Title.Location = new System.Drawing.Point(237, 57);
+            this.Title.Name = "Title";
+            this.Title.Size = new System.Drawing.Size(430, 59);
+            this.Title.TabIndex = 11;
+            this.Title.Text = "Hungry Horace";
+            this.Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Score
+            // 
+            this.Score.AutoSize = true;
+            this.Score.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.Score.Location = new System.Drawing.Point(338, 259);
+            this.Score.Name = "Score";
+            this.Score.Size = new System.Drawing.Size(147, 54);
+            this.Score.TabIndex = 12;
+            this.Score.Text = "SCORE";
+            this.Score.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // VictoryLabel
+            // 
+            this.VictoryLabel.AutoSize = true;
+            this.VictoryLabel.Font = new System.Drawing.Font("Showcard Gothic", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.VictoryLabel.ForeColor = System.Drawing.Color.Gold;
+            this.VictoryLabel.Location = new System.Drawing.Point(237, 57);
+            this.VictoryLabel.Name = "VictoryLabel";
+            this.VictoryLabel.Size = new System.Drawing.Size(425, 98);
+            this.VictoryLabel.TabIndex = 13;
+            this.VictoryLabel.Text = "VICTORY!";
+            // 
             // Window
             // 
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.ClientSize = new System.Drawing.Size(911, 623);
+            this.Controls.Add(this.Score);
+            this.Controls.Add(this.Title);
             this.Controls.Add(this.HardcoreLabel);
             this.Controls.Add(this.NormalLabel);
             this.Controls.Add(this.Hardcore);
             this.Controls.Add(this.Normal);
             this.Controls.Add(this.GameModeButton);
-            this.Controls.Add(this.Title);
             this.Controls.Add(this.buttonStart);
-            this.Controls.Add(this.Score);
             this.Controls.Add(this.GameOverLabel);
             this.Controls.Add(this.MenuButton);
             this.Controls.Add(this.TutorialButton);
+            this.Controls.Add(this.VictoryLabel);
             this.Name = "Window";
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp_1);
             this.ResumeLayout(false);
@@ -228,8 +243,6 @@ namespace HungryHorace
         private System.Windows.Forms.Timer Runtime;
         private System.Windows.Forms.Timer ChaseChillStates;
         private System.Windows.Forms.Timer FearState;
-        private System.Windows.Forms.TextBox Title;
-        private System.Windows.Forms.TextBox Score;
         private System.Windows.Forms.Button GameModeButton;
         private System.Windows.Forms.Button TutorialButton;
         private System.Windows.Forms.Button Normal;
@@ -238,6 +251,9 @@ namespace HungryHorace
         private System.Windows.Forms.Label HardcoreLabel;
         private System.Windows.Forms.Label GameOverLabel;
         private System.Windows.Forms.Button MenuButton;
+        private System.Windows.Forms.Label Title;
+        private System.Windows.Forms.Label Score;
+        private System.Windows.Forms.Label VictoryLabel;
     }
 }
 

@@ -79,7 +79,7 @@ namespace HungryHorace
                 }
                 if (!ghostfear)
                 {
-                    map.state = State.lost;
+                    map.state = State.eaten;
                 }
                 else
                 {
@@ -122,11 +122,12 @@ namespace HungryHorace
                 if (state != Map.GhostState.fear)
                 {
                     map.Move(x, y, map.nextx, map.nexty);
-                    map.state = State.lost;
+                    map.state = State.eaten;
                 }
                 else
                 {
-                    map.KillGhost(map.nextx, map.nexty);
+                    //map.Move(x, y, map.nextx, map.nexty);
+                    map.KillGhost(x, y);
                 }
                 
             }
@@ -138,7 +139,7 @@ namespace HungryHorace
         }
     }
 
-    enum State { notstarted, running, lost, win }
+    enum State { notstarted, running, eaten, win, lost}
 
     class Map
     {
@@ -172,10 +173,11 @@ namespace HungryHorace
             ReadIcons(pathIcons);
             state = State.running;
             this.score = 0;
+            
         }
 
         public (int, int)[] moves = { (0, -1), (1, 0), (0, 1), (-1, 0) }; //moves for BFS, with prioritites ^>v<
-        public int nextx = 5;
+        public int nextx = 5; /// add to ghosts' properties
         public int nexty = 5;
 
         public void GhostAIBFS(int from_x, int from_y, int to_x, int to_y)
@@ -308,6 +310,10 @@ namespace HungryHorace
         public void InserObject(int x, int y, char who)
         {
             plan[x, y] = who;
+            if (!"HG".Contains(who))
+            {
+                int a = 5;
+            }
             char ch = '-';
             switch (who)    
             {
@@ -322,8 +328,6 @@ namespace HungryHorace
             }
             if (ch != '-')
             {
-
-
                 plan[x + 1, y] = ch;
                 plan[x, y + 1] = ch;
                 plan[x + 1, y + 1] = ch;
@@ -623,7 +627,7 @@ namespace HungryHorace
             }
 
             coinsLeft -= 1;
-            score += 10;
+            score += 4;
             plan[cx, cy] = ' ';
             helpplan[cx, cy] = ' ';
             if (coinsLeft == 0)
@@ -648,8 +652,11 @@ namespace HungryHorace
             }
 
             helpplan[px, py] = ' ';
-            plan[px, py] = ' ';
-            score += 30;
+            if (plan[px, py] == 'p') 
+            {
+                plan[px, py] = ' ';
+            }
+            score += 15;
             foreach(Ghost ghost in Ghosts)
             {
                 ghost.state = GhostState.fear;
@@ -665,6 +672,7 @@ namespace HungryHorace
         public void Move (int fromx, int fromy, int tox, int toy)
         {
             char c = plan[fromx, fromy];
+
             plan[fromx + 1, fromy] = ' ';
             plan[fromx + 1, fromy + 1] = ' ';
             plan[fromx, fromy + 1] = ' ';
@@ -759,15 +767,22 @@ namespace HungryHorace
                   
                     Ghosts.RemoveAt(i); // 1. vyhodit ze seznamu pohyblivych prvku...
 
-                    plan[gx + 1, gy] = ' '; // 2. ...a z planu!
-                    plan[gx + 1, gy + 1] = ' ';
-                    plan[gx, gy + 1] = ' ';
-                    plan[gx, gy] = ' ';
+
+                    for (int k = 0; k < 2; k++) // 2. ...a z planu!
+                    {
+                        for (int j = 0; j < 2; j++)
+                        {
+                            if ("Gg".Contains(plan[gx+k, gy + j]))
+                            {
+                                plan[gx + k, gy + j] = ' ';
+                            }
+                        }
+                    }
                     break;
                 }
             }
 
-            score += 50;
+            score += 30;
         }
 
         public void RestoreGhosts()

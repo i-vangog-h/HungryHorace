@@ -19,34 +19,56 @@ namespace HungryHorace
         public Window()
         {
             InitializeComponent();
-            this.levelnumber = 1;
+
+            
             System.IO.StreamReader sr = new System.IO.StreamReader("newplan.txt") ;
             this.numberoflevels = int.Parse(sr.ReadLine());
             sr.Close();
+
+            this.levelnumber = 1;
             this.score = 0;
+            this.livesleft = 3;
+
             Score.Visible = false;
+            Hardcore.Visible = false;
+            Normal.Visible = false;
+            NormalLabel.Visible = false;
+            HardcoreLabel.Visible = false;
+            GameOverLabel.Visible = false;
+            MenuButton.Visible = false;
         }
 
         Map map;
         Graphics g;
         private void buttonStart_Click(object sender, EventArgs e)
         {
+            g = CreateGraphics();
             StartNewLevel();
             buttonStart.Visible = false;
             Title.Visible = false;
             Score.Visible = false;
+            GameModeButton.Visible = false;
+            TutorialButton.Visible = false;
             
         }
 
         private void StartNewLevel()
         {
-            g = CreateGraphics();
+            livesleft = 3;
+            
             map = new Map("newplan.txt", "icons.png", levelnumber);
-            this.Text = map.coinsLeft + " COINS LEFT";
+
+            if (gamemode != Gamemode.hardcore)
+            {
+                this.Text = "COINS LEFT: " + map.coinsLeft + "    YOUR SCORE: " + score;
+            }
+            else
+            {
+                this.Text = "COINS LEFT: " + map.coinsLeft + "    LIVES LEFT: " + livesleft + "    YOUR SCORE: " + score;
+            }
 
             Runtime.Enabled = true;
             ChaseChillStates.Enabled = true;
-
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         }
 
@@ -58,7 +80,14 @@ namespace HungryHorace
                 case State.running:
                     map.MoveObjects(pressedkey);
                     map.PrintOut(g, ClientSize.Width, ClientSize.Height);
-                    this.Text = map.coinsLeft + " COINS LEFT";
+                    if (gamemode != Gamemode.hardcore)
+                    {
+                        this.Text = "COINS LEFT: " + map.coinsLeft + "    YOUR SCORE: " + (score+map.score);
+                    }
+                    else
+                    {
+                        this.Text = "COINS LEFT: " + map.coinsLeft + "    LIVES LEFT: " + livesleft + "    YOUR SCORE: " + (score+map.score);
+                    }
                     break;
                 case State.win:
                     Runtime.Enabled = false;
@@ -76,12 +105,38 @@ namespace HungryHorace
                         score += map.score;
                         Score.Text = "SCORE: " + score;
                         Score.Visible = true;
+                        MenuButton.Visible = true;
+                    }
+                    break;
+                case State.eaten:
+                    ChaseChillStates.Enabled = false;
+                    switch (gamemode)
+                    {
+                        case Gamemode.normal:
+                            Runtime.Enabled = false;
+                            StartNewLevel();
+                            break;
+                        case Gamemode.hardcore:
+                            if (livesleft > 0)
+                            {
+                                livesleft -= 1;
+                                StartNewLevel();
+                            }
+                            else
+                            {
+                                map.state = State.lost;
+                            }
+                            break;
+                        default:
+                            break;
                     }
                     break;
                 case State.lost:
                     Runtime.Enabled = false;
                     ChaseChillStates.Enabled = false;
-                    MessageBox.Show("You lost!");
+                    g.Clear(BackColor);
+                    GameOverLabel.Visible = true;
+                    MenuButton.Visible = true; 
                     break;
                 default:
                     break;
@@ -161,6 +216,72 @@ namespace HungryHorace
                 FearState.Enabled = false;
             }
 
+        }
+
+
+        /// INTERFACE ///
+
+        public enum Gamemode { normal, hardcore };
+        Gamemode gamemode = Gamemode.normal;
+        public int livesleft;
+
+        public void ActivateMenu()
+        {
+            Title.Visible = true;
+            buttonStart.Visible = true;
+            GameModeButton.Visible = true;
+            TutorialButton.Visible = true;
+        }
+
+        private void GameModeButton_Click(object sender, EventArgs e)
+        {
+            
+            Hardcore.Visible = !Hardcore.Visible;
+            Normal.Visible = !Normal.Visible;
+            TutorialButton.Visible = !TutorialButton.Visible;
+
+        }
+
+        private void Hardcore_MouseHover(object sender, EventArgs e)
+        {
+            HardcoreLabel.Visible = true;
+        }
+
+        private void Hardcore_MouseLeave(object sender, EventArgs e)
+        {
+            HardcoreLabel.Visible = false;
+        }
+
+        private void Normal_MouseHover(object sender, EventArgs e)
+        {
+            NormalLabel.Visible = true;
+        }
+
+        private void Normal_MouseLeave(object sender, EventArgs e)
+        {
+            NormalLabel.Visible = false;
+        }
+
+        private void Normal_Click(object sender, EventArgs e)
+        {
+            gamemode = Gamemode.normal;
+            Normal.BackColor = Color.Red;
+            Hardcore.BackColor = Color.SteelBlue;
+        }
+
+        private void Hardcore_Click(object sender, EventArgs e)
+        {
+            gamemode = Gamemode.hardcore;
+            Hardcore.BackColor = Color.Red;
+            Normal.BackColor = Color.SteelBlue;
+        }
+
+        private void MenuButton_Click(object sender, EventArgs e)
+        {
+            MenuButton.Visible = false;
+            GameOverLabel.Visible = false;
+            Score.Visible = false;
+            ActivateMenu();
         }
     }
 }

@@ -1,23 +1,23 @@
-2
+1
 
 #1
 29
 18
                               
                               
-  aXXXXXXXXXXXXXXXXXXXXXXXb   
-  Y         X             Y   
-  >H-C      X  C  C  C  C Y   
-  >--X      X             Y   
-  Y  XXXXX  XXXXXXXXX CXXXd   
+  aXXXXXXXXXbXXXXXXXXXXXXXb   
+  Y         Y             Y   
+  >HhC      Y  C  C  C  C Y   
+  >hhY      Y             Y   
+  Y  cXXXX  cXXXXXXXX CXXXd   
   Y C  C                  Y   
   Y        C C C C        Y   
-  Y CXXXXXXXXXXXXXXXXXXX  Y   
-  Y   G-  XX C  X   p  XC Y   
-  Y C --  XX    X      X  Y   
-  Y       XX    XXXX  XXC Y   
-  Y C  C   C   C   C      |   
-  Y                       |   
+  Y CXXXXXbaXXXXaXXXXXXb  Y   
+  Y   Gg  YY C  Y   p  YC Y   
+  Y C gg  YY    Y      Y  Y   
+  Y       cd    cXXX  XdC Y   
+  Y C  C   C GgC   C      |   
+  Y          gg           |   
   cXXXXXXXXXXXXXXXXXXXXXXXd   
                               
                               
@@ -25,14 +25,43 @@
 
 
 #2
+29
+23
+                              
+                              
+  aXXXXXXXXXXXXXXXXXXXXXXXb   
+  >Hh  C Y       Y  C C   Y   
+  >hh    Y  C C  Y C     CY   
+  Y  aX  Y  XXX  YC XXXb  Y   
+  Y CY   C  C  C   Gg  Y Cd   
+  Y  Y           C gg  Y  Y   
+  Y CY  aXXXX C XXXXb  Y CY   
+  Y  Y  Y   aXXXXb  Y     Y   
+  Y CY  cXXXd C  cXXY  C  Y   
+  Y  Y    C C p C C cXXb  Y   
+  Y CY                 Y  Y   
+  Y  Y  aXXXXXb   C C  Y  Y   
+  Y CY  Y     Y  aXb C Y  Y   
+  Y  C C C C  Y  Y Y C Y  |   
+  Y           Y  Y Y C Y  |   
+  YXXXX C  XXXd  cXd   cXXY   
+  Y                  Gg   Y   
+  Y C   C   C   C    gg   Y     
+  cXXXXXXXXXXXXXXXXXXXXXXXd   
+                              
+                              
+
+
+
+#3
 36
 26
                                     
                                     
                         aXXXXXXXXX  
                  aXXXXXXd     C  |  
-          aXXXXXXd  G-     C     |  
-  aXXXXXXXd    C  C --     aXXXXXb  
+          aXXXXXXd  Gg     C     |  
+  aXXXXXXXd    C  C gg     aXXXXXb  
   Y   C  C  C          aXXXd  Y CY  
   Y          aXXXXXXb  cXXXXXbY  Y  
   Y  XXXXXXXXY      Y C      cd CY  
@@ -43,14 +72,14 @@
                  cXXXXXb         Y  
                        YXXXXXXX  Y  
                 aXXXXXXd    C  C Y  
-         aXXXXXXd   G-  C        Y  
-  aXXXXXXd     C  C --    aXXXXXXY  
+         aXXXXXXd   Gg  C        Y  
+  aXXXXXXd     C  C gg    aXXXXXXY  
   Y  C  C  C       aXXXXXXXXXXXXXY  
   Y         aXXXXXXd             Y  
   Y  aXXXXXXY                    Y  
   Y  cXXXXXXd           XXXXXXX  Y  
-  >H-                        p   Y  
-  >--          aXXXXb            Y  
+  >Hh                        p   Y  
+  >hh          aXXXXb            Y  
   cXXXXXXXXXXXXd    cXXXXXXXXXXXXd  
                                     
                                     

@@ -11,17 +11,20 @@ using System.Windows.Forms;
 
 namespace HungryHorace
 {
-    public partial class Form1 : Form
+    public partial class Window : Form
     {
         public int levelnumber;
         private int numberoflevels;
-        public Form1()
+        public int score;
+        public Window()
         {
             InitializeComponent();
             this.levelnumber = 1;
             System.IO.StreamReader sr = new System.IO.StreamReader("newplan.txt") ;
             this.numberoflevels = int.Parse(sr.ReadLine());
             sr.Close();
+            this.score = 0;
+            Score.Visible = false;
         }
 
         Map map;
@@ -30,6 +33,8 @@ namespace HungryHorace
         {
             StartNewLevel();
             buttonStart.Visible = false;
+            Title.Visible = false;
+            Score.Visible = false;
             
         }
 
@@ -61,11 +66,16 @@ namespace HungryHorace
                     if (levelnumber < numberoflevels)
                     {
                         levelnumber += 1;
+                        score += map.score;
                         StartNewLevel();
                     }
                     else
                     {
-                        MessageBox.Show("You won mate!");
+                        Runtime.Enabled = false;
+                        g.Clear(BackColor);
+                        score += map.score;
+                        Score.Text = "SCORE: " + score;
+                        Score.Visible = true;
                     }
                     break;
                 case State.lost:
@@ -113,7 +123,7 @@ namespace HungryHorace
 
 
         private DateTime starttime;
-        private void timer2_Tick(object sender, EventArgs e)
+        private void ChaseChillState_Tick(object sender, EventArgs e)
         {
             
             foreach(Ghost ghost in map.Ghosts)

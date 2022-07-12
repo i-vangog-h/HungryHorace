@@ -309,11 +309,11 @@ namespace HungryHorace
         }
         public void InserObject(int x, int y, char who)
         {
-            plan[x, y] = who;
-            if (!"HG".Contains(who))
+            if (who == ' ')
             {
                 int a = 5;
             }
+            plan[x, y] = who;
             char ch = '-';
             switch (who)    
             {
@@ -723,7 +723,8 @@ namespace HungryHorace
             int gx = x;
             int gy = y;
             bool stop = false;
-            for (int i = 0; i < 2; i++)
+
+            for (int i = 0; i < 2; i++) //Finds the Ghost's "square"
             {
                 for (int j = 0; j < 2; j++)
                 {
@@ -744,7 +745,7 @@ namespace HungryHorace
 
             if (plan[gx, gy] != 'G')   //Find the main char of the Ghost to remove it
             {
-                if (plan[gx-1,gy] == 'G')    //All posible positions of little 'g' relating to the big one
+                if (plan[gx-1,gy] == 'G')    //All posible positions of little 'g' relating to the big G
                 {
                     gx = gx - 1;
                 }

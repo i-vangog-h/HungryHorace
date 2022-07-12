@@ -66,6 +66,19 @@
   <metadata name="FearState.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>286, 17</value>
   </metadata>
+  <data name="TutorialLabel.Text" xml:space="preserve">
+    <value>Hi, 
+welcome to mini acrcade game inpired by the Hungry Horace.
+
+The game consist of three levels. Collect coins to pass each level.
+Every time you eat a coin, a pill or kill a ghost you get score points. 
+Do your best and check the final score after you pass the game. Get as many as you 
+can and compete with friends to get the most. 
+Beware of ghosts and don't foget to eat a red pill to get a chance to kill them.
+Before you start, chose between two possible gamemodes (normal and hardcore).
+
+Good luck and enjoy your pastime! </value>
+  </data>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>92</value>
   </metadata>

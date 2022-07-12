@@ -37,6 +37,10 @@ namespace HungryHorace
             GameOverLabel.Visible = false;
             MenuButton.Visible = false;
             VictoryLabel.Visible = false;
+            TutorialLabel.Visible = false;
+            PausePanel.Visible = false;
+            PauseButton.Visible = false;
+            this.Text = "Hungry horace inspired";
         }
 
         Map map;
@@ -52,6 +56,8 @@ namespace HungryHorace
             TutorialButton.Visible = false;
             Normal.Visible = false;
             Hardcore.Visible = false;
+            ExitButton.Visible = false;
+            
             
         }
 
@@ -72,6 +78,8 @@ namespace HungryHorace
 
             Runtime.Enabled = true;
             ChaseChillStates.Enabled = true;
+            PauseButton.Enabled = true;
+            PauseButton.Visible = true;
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         }
 
@@ -95,6 +103,7 @@ namespace HungryHorace
                 case State.win:
                     Runtime.Enabled = false;
                     ChaseChillStates.Enabled = false;
+                    FearState.Enabled = false;
                     if (levelnumber < numberoflevels)
                     {
                         levelnumber += 1;
@@ -107,14 +116,16 @@ namespace HungryHorace
                     }
                     else
                     {
-                        Runtime.Enabled = false;
                         g.Clear(BackColor);
                         score += map.score;
                         Score.Text = "SCORE: " + score;
                         score = 0;
+                        /// VICTORY WINDOW
                         Score.Visible = true;
                         MenuButton.Visible = true;
                         VictoryLabel.Visible = true;
+                        PauseButton.Visible = false;
+                        /// 
                     }
                     break;
                 case State.eaten:
@@ -141,11 +152,13 @@ namespace HungryHorace
                     }
                     break;
                 case State.lost:
+                    g.Clear(BackColor);
                     Runtime.Enabled = false;
                     ChaseChillStates.Enabled = false;
-                    g.Clear(BackColor);
+                    /// GAME OVER WINDOW
                     GameOverLabel.Visible = true;
-                    MenuButton.Visible = true; 
+                    MenuButton.Visible = true;
+                    ///
                     break;
                 default:
                     break;
@@ -154,7 +167,6 @@ namespace HungryHorace
 
         PressedKey pressedkey = PressedKey.none;
 
-        // HACK na odchyceni stisku sipek
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == Keys.Up)
@@ -240,6 +252,7 @@ namespace HungryHorace
             buttonStart.Visible = true;
             GameModeButton.Visible = true;
             TutorialButton.Visible = true;
+            ExitButton.Visible = true;
         }
 
         private void GameModeButton_Click(object sender, EventArgs e)
@@ -291,7 +304,55 @@ namespace HungryHorace
             GameOverLabel.Visible = false;
             Score.Visible = false;
             VictoryLabel.Visible = false;
+            PauseButton.Visible = false;
             ActivateMenu();
+            this.Text = "Hungry horace inspired";
+        }
+
+        private void TutorialButton_Click(object sender, EventArgs e)
+        {
+            TutorialLabel.Visible = !TutorialLabel.Visible;
+            GameModeButton.Enabled = !GameModeButton.Enabled;
+        }
+
+        private void PauseButton_Click(object sender, EventArgs e)
+        {
+            Runtime.Stop();
+            if (ChaseChillStates.Enabled)
+                ChaseChillStates.Stop();
+            else
+                FearState.Stop();
+            PausePanel.Visible = true;
+            PauseButton.Enabled = false;
+        }
+
+        private void PauseMenuButton_Click(object sender, EventArgs e)
+        {
+            g.Clear(BackColor);
+            Runtime.Enabled = false;
+            ChaseChillStates.Enabled = false;
+            FearState.Enabled = false;
+            PausePanel.Visible = false;
+            PauseButton.Visible = false;
+            ActivateMenu();
+            this.Text = "Hungry horace inspired";
+            
+        }
+
+        private void ResumePauseButton_Click(object sender, EventArgs e)
+        {
+            PauseButton.Enabled = true;
+            PausePanel.Visible = false;
+            Runtime.Start();
+            if (ChaseChillStates.Enabled)
+                ChaseChillStates.Start();
+            else
+                FearState.Start();
+        }
+
+        private void ExitButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

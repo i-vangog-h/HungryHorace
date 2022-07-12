@@ -30,6 +30,7 @@ namespace HungryHorace
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Window));
             this.button1 = new System.Windows.Forms.Button();
             this.buttonStart = new System.Windows.Forms.Button();
             this.Runtime = new System.Windows.Forms.Timer(this.components);
@@ -46,6 +47,13 @@ namespace HungryHorace
             this.Title = new System.Windows.Forms.Label();
             this.Score = new System.Windows.Forms.Label();
             this.VictoryLabel = new System.Windows.Forms.Label();
+            this.TutorialLabel = new System.Windows.Forms.Label();
+            this.PauseButton = new System.Windows.Forms.Button();
+            this.PauseMenuButton = new System.Windows.Forms.Button();
+            this.ResumePauseButton = new System.Windows.Forms.Button();
+            this.PausePanel = new System.Windows.Forms.Panel();
+            this.ExitButton = new System.Windows.Forms.Button();
+            this.PausePanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -69,7 +77,6 @@ namespace HungryHorace
             // 
             // Runtime
             // 
-            this.Runtime.Interval = 150;
             this.Runtime.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // ChaseChillStates
@@ -104,6 +111,7 @@ namespace HungryHorace
             this.TutorialButton.TabIndex = 4;
             this.TutorialButton.Text = "Tutorial";
             this.TutorialButton.UseVisualStyleBackColor = false;
+            this.TutorialButton.Click += new System.EventHandler(this.TutorialButton_Click);
             // 
             // Normal
             // 
@@ -213,10 +221,83 @@ namespace HungryHorace
             this.VictoryLabel.TabIndex = 13;
             this.VictoryLabel.Text = "VICTORY!";
             // 
+            // TutorialLabel
+            // 
+            this.TutorialLabel.AutoSize = true;
+            this.TutorialLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.TutorialLabel.Font = new System.Drawing.Font("Berlin Sans FB", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TutorialLabel.Location = new System.Drawing.Point(117, 132);
+            this.TutorialLabel.Name = "TutorialLabel";
+            this.TutorialLabel.Size = new System.Drawing.Size(705, 253);
+            this.TutorialLabel.TabIndex = 14;
+            this.TutorialLabel.Text = resources.GetString("TutorialLabel.Text");
+            // 
+            // PauseButton
+            // 
+            this.PauseButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.PauseButton.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.PauseButton.Location = new System.Drawing.Point(751, 21);
+            this.PauseButton.Name = "PauseButton";
+            this.PauseButton.Size = new System.Drawing.Size(148, 50);
+            this.PauseButton.TabIndex = 15;
+            this.PauseButton.Text = "Pause";
+            this.PauseButton.UseVisualStyleBackColor = false;
+            this.PauseButton.Click += new System.EventHandler(this.PauseButton_Click);
+            // 
+            // PauseMenuButton
+            // 
+            this.PauseMenuButton.BackColor = System.Drawing.Color.SteelBlue;
+            this.PauseMenuButton.Font = new System.Drawing.Font("Segoe UI Black", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.PauseMenuButton.Location = new System.Drawing.Point(82, 80);
+            this.PauseMenuButton.Name = "PauseMenuButton";
+            this.PauseMenuButton.Size = new System.Drawing.Size(139, 45);
+            this.PauseMenuButton.TabIndex = 16;
+            this.PauseMenuButton.Text = "Menu";
+            this.PauseMenuButton.UseVisualStyleBackColor = false;
+            this.PauseMenuButton.Click += new System.EventHandler(this.PauseMenuButton_Click);
+            // 
+            // ResumePauseButton
+            // 
+            this.ResumePauseButton.BackColor = System.Drawing.Color.SteelBlue;
+            this.ResumePauseButton.Font = new System.Drawing.Font("Segoe UI Black", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.ResumePauseButton.Location = new System.Drawing.Point(82, 131);
+            this.ResumePauseButton.Name = "ResumePauseButton";
+            this.ResumePauseButton.Size = new System.Drawing.Size(139, 45);
+            this.ResumePauseButton.TabIndex = 17;
+            this.ResumePauseButton.Text = "Resume";
+            this.ResumePauseButton.UseVisualStyleBackColor = false;
+            this.ResumePauseButton.Click += new System.EventHandler(this.ResumePauseButton_Click);
+            // 
+            // PausePanel
+            // 
+            this.PausePanel.BackColor = System.Drawing.Color.Silver;
+            this.PausePanel.Controls.Add(this.ResumePauseButton);
+            this.PausePanel.Controls.Add(this.PauseMenuButton);
+            this.PausePanel.Location = new System.Drawing.Point(298, 132);
+            this.PausePanel.Name = "PausePanel";
+            this.PausePanel.Size = new System.Drawing.Size(305, 236);
+            this.PausePanel.TabIndex = 18;
+            // 
+            // ExitButton
+            // 
+            this.ExitButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.ExitButton.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.ExitButton.Location = new System.Drawing.Point(725, 536);
+            this.ExitButton.Name = "ExitButton";
+            this.ExitButton.Size = new System.Drawing.Size(148, 50);
+            this.ExitButton.TabIndex = 19;
+            this.ExitButton.Text = "Exit";
+            this.ExitButton.UseVisualStyleBackColor = false;
+            this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
+            // 
             // Window
             // 
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.ClientSize = new System.Drawing.Size(911, 623);
+            this.Controls.Add(this.ExitButton);
+            this.Controls.Add(this.TutorialLabel);
+            this.Controls.Add(this.PausePanel);
+            this.Controls.Add(this.PauseButton);
             this.Controls.Add(this.Score);
             this.Controls.Add(this.Title);
             this.Controls.Add(this.HardcoreLabel);
@@ -231,6 +312,7 @@ namespace HungryHorace
             this.Controls.Add(this.VictoryLabel);
             this.Name = "Window";
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp_1);
+            this.PausePanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -254,6 +336,12 @@ namespace HungryHorace
         private System.Windows.Forms.Label Title;
         private System.Windows.Forms.Label Score;
         private System.Windows.Forms.Label VictoryLabel;
+        private System.Windows.Forms.Label TutorialLabel;
+        private System.Windows.Forms.Button PauseButton;
+        private System.Windows.Forms.Button PauseMenuButton;
+        private System.Windows.Forms.Button ResumePauseButton;
+        private System.Windows.Forms.Panel PausePanel;
+        private System.Windows.Forms.Button ExitButton;
     }
 }
 

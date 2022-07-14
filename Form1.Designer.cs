@@ -1,7 +1,7 @@
 ﻿
 namespace HungryHorace
 {
-    partial class Window
+    partial class Form_1
     {
         /// <summary>
         ///  Required designer variable.
@@ -30,7 +30,7 @@ namespace HungryHorace
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Window));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_1));
             this.button1 = new System.Windows.Forms.Button();
             this.buttonStart = new System.Windows.Forms.Button();
             this.Runtime = new System.Windows.Forms.Timer(this.components);
@@ -77,7 +77,7 @@ namespace HungryHorace
             // 
             // Runtime
             // 
-            this.Runtime.Tick += new System.EventHandler(this.timer1_Tick);
+            this.Runtime.Tick += new System.EventHandler(this.Runtime_Tick);
             // 
             // ChaseChillStates
             // 
@@ -86,7 +86,7 @@ namespace HungryHorace
             // 
             // FearState
             // 
-            this.FearState.Interval = 5001;
+            this.FearState.Interval = 7001;
             this.FearState.Tick += new System.EventHandler(this.FearState_Tick);
             // 
             // GameModeButton
@@ -290,7 +290,7 @@ namespace HungryHorace
             this.ExitButton.UseVisualStyleBackColor = false;
             this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
-            // Window
+            // Form_1
             // 
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.ClientSize = new System.Drawing.Size(911, 623);
@@ -310,7 +310,7 @@ namespace HungryHorace
             this.Controls.Add(this.MenuButton);
             this.Controls.Add(this.TutorialButton);
             this.Controls.Add(this.VictoryLabel);
-            this.Name = "Window";
+            this.Name = "Form_1";
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp_1);
             this.PausePanel.ResumeLayout(false);
             this.ResumeLayout(false);

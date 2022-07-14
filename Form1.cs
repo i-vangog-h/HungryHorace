@@ -1,4 +1,13 @@
-﻿using System;
+﻿// Mini arcade game inspired by Hungry Horace
+// Ivan Turko, I. year, spec. Informatika (сz)
+// Summer semestr 2021/22
+// Prorgamování 2, NPRG031 (cz)
+
+//////////////////////////////////////////////
+
+/// RUNTIME AND GUI ///
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,17 +20,16 @@ using System.Windows.Forms;
 
 namespace HungryHorace
 {
-    public partial class Window : Form
+    public partial class Form_1 : Form
     {
         public int levelnumber;
         private int numberoflevels;
         public int score;
-        public Window()
+        public Form_1()
         {
             InitializeComponent();
 
-            
-            System.IO.StreamReader sr = new System.IO.StreamReader("newplan.txt") ;
+            System.IO.StreamReader sr = new System.IO.StreamReader("newplan.txt") ; //The first string of .txt file contatins the number of levels
             this.numberoflevels = int.Parse(sr.ReadLine());
             sr.Close();
 
@@ -29,42 +37,61 @@ namespace HungryHorace
             this.score = 0;
             this.livesleft = 3;
 
-            Score.Visible = false;
-            Hardcore.Visible = false;
-            Normal.Visible = false;
-            NormalLabel.Visible = false;
-            HardcoreLabel.Visible = false;
-            GameOverLabel.Visible = false;
-            MenuButton.Visible = false;
-            VictoryLabel.Visible = false;
-            TutorialLabel.Visible = false;
-            PausePanel.Visible = false;
-            PauseButton.Visible = false;
-            this.Text = "Hungry horace inspired";
+            ActivateMenu();
+            
+            this.Text = "Hungry Horace Inspired";
         }
 
         Map map;
         Graphics g;
+
+
+        // Handling Key Inputs
+
+        PressedKey pressedkey = PressedKey.none;
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Up)
+            {
+                pressedkey = PressedKey.up;
+                return true;
+            }
+            if (keyData == Keys.Down)
+            {
+                pressedkey = PressedKey.down;
+                return true;
+            }
+            if (keyData == Keys.Left)
+            {
+                pressedkey = PressedKey.left;
+                return true;
+            }
+            if (keyData == Keys.Right)
+            {
+                pressedkey = PressedKey.right;
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+        private void Form1_KeyUp_1(object sender, KeyEventArgs e)
+        {
+            pressedkey = PressedKey.none;
+        } 
+        //Not used in the game, find it better (faster, more dynamic) without key up state, can be switched by setting form's property KeyPreview to true
+
+        //
+
+        /// RUNTIME ///
+
         private void buttonStart_Click(object sender, EventArgs e)
         {
             g = CreateGraphics();
+            DeactivateMenu();
             StartNewLevel();
-            buttonStart.Visible = false;
-            Title.Visible = false;
-            Score.Visible = false;
-            GameModeButton.Visible = false;
-            TutorialButton.Visible = false;
-            Normal.Visible = false;
-            Hardcore.Visible = false;
-            ExitButton.Visible = false;
-            
-            
         }
 
         private void StartNewLevel()
         {
-            
-            
             map = new Map("newplan.txt", "icons.png", levelnumber);
 
             if (gamemode != Gamemode.hardcore)
@@ -83,9 +110,8 @@ namespace HungryHorace
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void Runtime_Tick(object sender, EventArgs e)
         {
-
             switch (map.state)
             {
                 case State.running:
@@ -93,11 +119,11 @@ namespace HungryHorace
                     map.PrintOut(g, ClientSize.Width, ClientSize.Height);
                     if (gamemode != Gamemode.hardcore)
                     {
-                        this.Text = "COINS LEFT: " + map.coinsLeft + "    YOUR SCORE: " + (score+map.score);
+                        this.Text = "COINS LEFT: " + map.coinsLeft + "    YOUR SCORE: " + (score + map.score);
                     }
                     else
                     {
-                        this.Text = "COINS LEFT: " + map.coinsLeft + "    LIVES LEFT: " + livesleft + "    YOUR SCORE: " + (score+map.score);
+                        this.Text = "COINS LEFT: " + map.coinsLeft + "    LIVES LEFT: " + livesleft + "    YOUR SCORE: " + (score + map.score);
                     }
                     break;
                 case State.win:
@@ -163,40 +189,8 @@ namespace HungryHorace
                 default:
                     break;
             }
+
         }
-
-        PressedKey pressedkey = PressedKey.none;
-
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            if (keyData == Keys.Up)
-            {
-                pressedkey = PressedKey.up;
-                return true;
-            }
-            if (keyData == Keys.Down)
-            {
-                pressedkey = PressedKey.down;
-                return true;
-            }
-            if (keyData == Keys.Left)
-            {
-                pressedkey = PressedKey.left;
-                return true;
-            }
-            if (keyData == Keys.Right)
-            {
-                pressedkey = PressedKey.right; 
-                return true;
-            }
-            return base.ProcessCmdKey(ref msg, keyData);
-        }
-
-        private void Form1_KeyUp_1(object sender, KeyEventArgs e)
-        {
-            pressedkey = PressedKey.none;
-        }
-
 
         private DateTime starttime;
         private void ChaseChillState_Tick(object sender, EventArgs e)
@@ -239,6 +233,9 @@ namespace HungryHorace
 
         }
 
+        ///
+
+
 
         /// INTERFACE ///
 
@@ -246,6 +243,8 @@ namespace HungryHorace
         Gamemode gamemode = Gamemode.normal;
         public int livesleft;
 
+        // Methods 
+        
         public void ActivateMenu()
         {
             Title.Visible = true;
@@ -253,7 +252,33 @@ namespace HungryHorace
             GameModeButton.Visible = true;
             TutorialButton.Visible = true;
             ExitButton.Visible = true;
+
+            Score.Visible = false;
+            Hardcore.Visible = false;
+            Normal.Visible = false;
+            NormalLabel.Visible = false;
+            HardcoreLabel.Visible = false;
+            GameOverLabel.Visible = false;
+            MenuButton.Visible = false;
+            VictoryLabel.Visible = false;
+            TutorialLabel.Visible = false;
+            PausePanel.Visible = false;
+            PauseButton.Visible = false;
         }
+        public void DeactivateMenu()
+        {
+            buttonStart.Visible = false;
+            Title.Visible = false;
+            Score.Visible = false;
+            GameModeButton.Visible = false;
+            TutorialButton.Visible = false;
+            Normal.Visible = false;
+            Hardcore.Visible = false;
+            ExitButton.Visible = false;
+        }
+
+
+        // User Data Handling
 
         private void GameModeButton_Click(object sender, EventArgs e)
         {
@@ -306,7 +331,8 @@ namespace HungryHorace
             VictoryLabel.Visible = false;
             PauseButton.Visible = false;
             ActivateMenu();
-            this.Text = "Hungry horace inspired";
+            levelnumber = 1;
+            this.Text = "Hungry Horace Inspired";
         }
 
         private void TutorialButton_Click(object sender, EventArgs e)
@@ -335,7 +361,8 @@ namespace HungryHorace
             PausePanel.Visible = false;
             PauseButton.Visible = false;
             ActivateMenu();
-            this.Text = "Hungry horace inspired";
+            this.Text = "Hungry Horace Inspired";
+            levelnumber = 1;
             
         }
 
@@ -354,5 +381,8 @@ namespace HungryHorace
         {
             this.Close();
         }
+
+        ///
+        
     }
 }
